@@ -84,16 +84,6 @@ This repository emphasizes the polished final artifacts from the project:
 
 ## Visual Highlights
 
-### Rainfall and climate relationships
-
-![Rainfall vs temperature](assets/images/rainfall-vs-temperature.png)
-![Rainfall by location](assets/images/rainfall-by-location.png)
-
-### Dimensionality reduction and clustering
-
-![PCA variance ratio](assets/images/pca-variance-ratio.png)
-![K-Means on PCA-reduced data](assets/images/kmeans-pca.png)
-
 ### Model comparison
 
 ![PCA model comparison](assets/images/pca-accuracy-f1.png)

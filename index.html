@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Climate Data Analysis and Rainfall Prediction</title>
+  <style>
+    :root {
+      --bg: #f4f7f2;
+      --text: #172019;
+      --muted: #425347;
+      --accent: #2f6f61;
+      --accent-dark: #214f45;
+      --band: #dfe9df;
+      --line: #b4c6b6;
+      --surface: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: flex;
+      align-items: flex-end;
+      background:
+        linear-gradient(180deg, rgba(11, 26, 21, 0.18) 0%, rgba(11, 26, 21, 0.72) 100%),
+        url("assets/images/rainfall-by-location.png") center/cover no-repeat;
+      padding: 40px 24px 64px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .eyebrow {
+      color: #e6f1ea;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      color: #f7fbf7;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.02;
+    }
+
+    .hero p {
+      max-width: 720px;
+      color: #e6f1ea;
+      font-size: 18px;
+      margin: 18px 0 28px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      background: var(--accent);
+      color: #f8fcf7;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-weight: 600;
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #f7fbf7;
+    }
+
+    section {
+      padding: 56px 24px;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .band {
+      background: var(--band);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 30px;
+      line-height: 1.1;
+    }
+
+    .lead {
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      min-height: 128px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .list li {
+      margin-bottom: 10px;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    figure {
+      margin: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    figcaption {
+      padding: 12px 14px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .deliverables {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .deliverable {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .deliverable h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .deliverable p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .stats,
+      .deliverables,
+      .figure-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      figure img {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Climate Analytics Project</div>
+      <h1>Climate Data Analysis and Rainfall Prediction with Dimensionality Reduction and Machine Learning</h1>
+      <p>
+        A report-driven study of Australian weather data using PCA, SVD, K-Means clustering, and predictive models to uncover climate structure and improve rainfall prediction.
+      </p>
+      <div class="actions">
+        <a class="button" href="reports/final-report.pdf">Read Final Report</a>
+        <a class="button secondary" href="reports/final-merged-code.pdf">Open Merged Code</a>
+        <a class="button secondary" href="slides/final-presentation.pptx">View Presentation</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="band">
+    <div class="wrap">
+      <h2>What This Project Delivers</h2>
+      <p class="lead">
+        The project reduces a high-dimensional climate dataset into interpretable structure, identifies distinct weather regimes, and compares predictive methods for rainfall-related outcomes.
+      </p>
+      <div class="stats">
+        <div class="stat">
+          <strong>&gt;95%</strong>
+          <span>variance retained by PCA according to the final report</span>
+        </div>
+        <div class="stat">
+          <strong>3</strong>
+          <span>weather-pattern clusters identified through K-Means</span>
+        </div>
+        <div class="stat">
+          <strong>PCA &gt; SVD</strong>
+          <span>better final dimensionality-reduction performance in this project</span>
+        </div>
+        <div class="stat">
+          <strong>ML + EDA</strong>
+          <span>combined statistical exploration, clustering, and predictive modeling</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap two-col">
+      <div>
+        <h2>Approach</h2>
+        <ul class="list">
+          <li>Cleaned and prepared climate observations from an Australian weather dataset.</li>
+          <li>Engineered interaction and lag-based features to capture rainfall and temperature dynamics.</li>
+          <li>Applied PCA and SVD to reduce dimensionality and improve interpretability.</li>
+          <li>Used K-Means clustering to expose natural groupings in weather behavior.</li>
+          <li>Compared classification and regression models to evaluate predictive performance.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Highlights</h2>
+        <ul class="list">
+          <li>Strong rainfall seasonality visible across monthly and geographic breakdowns.</li>
+          <li>Clear relationships between rainfall, sunshine, temperature, humidity, and wind.</li>
+          <li>Distinct cluster structure in reduced feature space.</li>
+          <li>Ensemble models delivered strong rainfall-prediction performance in the final report.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2>Report Figures</h2>
+      <p class="lead">
+        Selected visuals from the final report showing exploratory analysis, dimensionality reduction, clustering, and model comparison.
+      </p>
+      <div class="figure-grid">
+        <figure>
+          <img src="assets/images/rainfall-vs-temperature.png" alt="Rainfall versus temperature visualization">
+          <figcaption>Rainfall and temperature relationships in the climate dataset.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/rainfall-by-location.png" alt="Rainfall distribution by location">
+          <figcaption>Geographic variation in rainfall across locations.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/pca-variance-ratio.png" alt="PCA variance ratio chart">
+          <figcaption>PCA retained most of the information in fewer dimensions.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/kmeans-pca.png" alt="K means clustering on PCA reduced weather data">
+          <figcaption>Cluster structure in PCA-reduced weather space.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/pca-accuracy-f1.png" alt="PCA model accuracy and F1 comparison">
+          <figcaption>Classification comparison for PCA-reduced data.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/auc-cohen-kappa.png" alt="AUC and Cohen's kappa comparison chart">
+          <figcaption>Comparative evaluation using ROC-AUC and Cohen's kappa.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Final Materials</h2>
+      <div class="deliverables">
+        <div class="deliverable">
+          <h3>Final Report</h3>
+          <p>The main polished write-up covering methodology, visuals, clustering, model comparison, and conclusions.</p>
+          <a class="button" href="reports/final-report.pdf">Open Report</a>
+        </div>
+        <div class="deliverable">
+          <h3>Merged Final Code</h3>
+          <p>The consolidated code artifact preserved from the original project materials with minimal intervention.</p>
+          <a class="button" href="reports/final-merged-code.pdf">Open Code PDF</a>
+        </div>
+        <div class="deliverable">
+          <h3>Final Presentation</h3>
+          <p>A presentation-ready summary of the project suitable for portfolio review and interview discussion.</p>
+          <a class="button" href="slides/final-presentation.pptx">Open Slides</a>
+        </div>
+      </div>
+      <p class="footer-note">
+        The notebooks and datasets are included in the repository for completeness, while the public-facing emphasis stays on the final report, merged code, and presentation.
+      </p>
+    </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,463 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{relsize}
+\geometry{a4paper, margin=0.6in}
+
+\graphicspath{{Images for report/}}
+\begin{document}
+\relsize{-0.8}
+\title{\textbf{Climate Data Analysis Using Machine Learning and Dimensionality Reduction}}
+\author{\LARGE Achintya}
+
+\date{December 15, 2024}
+
+\maketitle
+
+\begin{abstract}
+This project explores climate data analysis for rainfall prediction using machine learning techniques and dimensionality reduction methods, including Principal Component Analysis (PCA) and Singular Value Decomposition (SVD). A comprehensive workflow comprising data cleaning, preprocessing, feature engineering, clustering (KMeans), and predictive modeling was undertaken. PCA proved efficient in reducing dataset complexity while retaining over 95\% variance. Machine learning models such as Logistic Regression, Decision Tree, Random Forest, and XGBoost were evaluated, with XGBoost emerging as the top performer with a notable accuracy. This analysis highlights the efficacy of advanced dimensionality reduction and ensemble methods in improving predictive accuracy and interpretability for climate datasets.
+\end{abstract}
+
+\section{Introduction}
+Climate change has increasingly impacted global weather systems, making accurate rainfall prediction critical for applications such as agriculture, disaster preparedness, and water resource management. However, climate datasets are typically high-dimensional, with significant interdependencies among variables. This project addresses these challenges by employing machine learning algorithms combined with dimensionality reduction techniques to predict rainfall. 
+
+We used Principal Component Analysis (PCA) and Singular Value Decomposition (SVD) to reduce the dataset's complexity, followed by KMeans clustering for pattern discovery. Predictive models such as Logistic Regression, Decision Tree, Random Forest, and XGBoost were implemented and evaluated using key metrics like accuracy, ROC-AUC, and Mean Squared Error (MSE). 
+
+
+The objectives of this project include identifying significant trends within the dataset, reducing its complexity without losing crucial information, and developing robust predictive models.
+The project leverages Python libraries such as Pandas, Scikit-Learn, Seaborn, along with several others for analysis and visualization.
+
+\section{Objectives}
+\begin{itemize}
+    \item Perform exploratory data analysis (EDA) to understand climate features.
+    \item Address missing values and outliers through preprocessing.
+    \item Reduce dimensionality using PCA and SVD to handle multicollinearity.
+    \item Identify natural patterns using KMeans clustering.
+    \item Build predictive models (Random Forest, Logistic Regression, XGBoost) for rainfall prediction.
+    \item Compare performance metrics and determine the best-performing model.
+\end{itemize}
+
+
+\section{Accomplishments}
+\subsection{Data Preprocessing}
+\subsubsection{Data Loading and Exploration}
+The weather dataset was loaded from a CSV file and explored to understand its structure, distribution, and key statistics. The dataset contained multiple features including temperature, humidity, wind speed, and precipitation.
+
+\subsubsection{Handling Missing Values}
+Missing values were identified in several features such as 'Sunshine' and 'Evaporation'. Appropriate imputation techniques, including median imputation, were applied to handle these missing values and maintain data integrity.
+
+\subsubsection{Encoding Categorical Variables}
+Categorical variables like 'RainToday' and 'RainTomorrow' were converted into numerical values using label encoding, where 'No' was encoded as 0 and 'Yes' as 1.
+
+\subsubsection{Feature Scaling}
+Features were scaled using StandardScaler to ensure uniformity and improve the performance of machine learning algorithms.
+
+\subsection{Dimensionality Reduction}
+\subsubsection{Principal Component Analysis (PCA)}
+PCA was applied to reduce the dimensionality of the dataset, transforming it into a set of linearly uncorrelated components. The explained variance ratio was plotted to determine the optimal number of principal components. The first three principal components were found to explain a significant portion of the variance.
+
+\subsubsection{Truncated Singular Value Decomposition (SVD)}
+SVD was implemented as another dimensionality reduction technique, particularly useful for sparse data. Similar to PCA, SVD reduced the dataset to a lower-dimensional space, facilitating easier analysis and visualization.
+
+\subsection{Clustering}
+\subsubsection{K-Means Clustering}
+K-Means clustering was performed on both PCA- and SVD-reduced data to identify natural groupings within the dataset. The Elbow Method was used to determine the optimal number of clusters, which was found to be three. Clusters were visualized using scatter plots of the first two principal components, providing insights into distinct weather patterns.
+
+\subsection{Predictive Modeling}
+\subsubsection{Data Splitting}
+The dataset was split into training and testing sets to evaluate the performance of predictive models.
+
+\subsubsection{Model Training and Evaluation}
+Various classifiers were trained, including Random Forest, Logistic Regression, Decision Tree, Support Vector Machine (SVM), Stochastic Gradient Descent (SGD) Classifier, and XGBoost. Models were evaluated using accuracy, ROC AUC, Cohen's Kappa, and confusion matrices. ROC curves were plotted to assess the models' performance in distinguishing between different classes.
+
+\subsubsection{Regression Analysis}
+Linear Regression and Gradient Boosting Regressor were applied to PCA- and SVD-reduced data to predict continuous outcomes like temperature. Model performance was evaluated using Mean Squared Error (MSE) and R-squared (R2) scores.
+
+\section{Observation}
+\subsection{Data Distribution and Correlation}
+The dataset contained a mixture of numerical and categorical variables, with several missing values particularly in 'Sunshine' and 'Evaporation'. High correlations were observed between certain temperature-related features, such as 'MinTemp' and 'MaxTemp' with 'Temp9am' and 'Temp3pm'. Visualizations, including histograms and heatmaps, were used to understand the distribution and relationships among features.
+
+\subsection{PCA and SVD Analysis}
+PCA revealed that the first three principal components accounted for a significant proportion of the variance, indicating that much of the dataset's information could be captured in fewer dimensions. SVD similarly reduced the dataset's complexity, making it easier to handle and interpret. Visualizations of the PCA and SVD components demonstrated clear separation and clustering tendencies, which were crucial for subsequent analysis.
+
+\subsection{Clustering Insights}
+K-Means clustering on PCA- and SVD-reduced data identified three distinct clusters. These clusters corresponded to different weather patterns, suggesting natural groupings within the data. Clustering results were visualized using scatter plots, with clusters color-coded for clarity.
+
+\subsection{Predictive Modeling Results}
+\subsubsection{Logistic Regression}
+Achieved high accuracy and ROC AUC, indicating strong performance in predicting whether it will rain tomorrow. The model showed a balanced precision and recall, with a high Cohen's Kappa score reflecting good agreement between predicted and actual values.
+
+\subsubsection{Random Forest}
+Demonstrated excellent performance with high accuracy and ROC AUC. The model was robust, handling complex interactions between features effectively.
+
+\subsubsection{Decision Tree}
+Provided interpretable results but with slightly lower performance compared to ensemble methods. Useful for understanding feature importance and decision-making process.
+
+\subsubsection{Support Vector Machine (SVM)}
+Showed good performance, particularly with linear kernel, and provided a clear margin of separation between classes.
+
+\subsubsection{SGD Classifier}
+Performed moderately well, suitable for large-scale and real-time applications due to its efficiency.
+
+\subsubsection{XGBoost}
+Achieved high accuracy and ROC AUC, known for its superior performance and ability to handle large datasets with complex patterns.
+
+\subsection{Regression Analysis Results}
+\subsubsection{Linear Regression}
+Showed decent performance with low MSE and reasonably high R2 scores, indicating a good fit to the data.
+
+\subsubsection{Gradient Boosting Regressor}
+Outperformed Linear Regression with lower MSE and higher R2 scores, demonstrating its ability to capture non-linear relationships in the data.
+
+
+
+\section{Dataset and Preprocessing}
+\subsection{Dataset Description}
+\begin{itemize}
+    \item \textbf{Source:} Kaggle Weather Dataset
+    \item \textbf{Size:} 145,460 rows, 24 features
+    \item \textbf{Target Variable:} RainTomorrow (Binary: Yes/No)
+\end{itemize}
+
+\subsection{Data Cleaning and Preprocessing}
+The following steps were applied to prepare the data:
+\begin{itemize}
+    \item Rows with more than 20\% missing data were removed.
+    \item Median imputation was applied to numerical features like `Sunshine` and `Evaporation`.
+    \item Mode imputation was used for categorical features.
+    \item Categorical variables (`RainToday`, `RainTomorrow`) were encoded using Label Encoding.
+    \item Features were scaled using \texttt{StandardScaler} to ensure uniformity.
+    \item Outliers were removed using z-score thresholds.
+    \item Temporal features (Year, Month, Day, Season) were extracted to incorporate seasonality.
+\end{itemize}
+
+\subsection{Handling Missing Values and Outliers}
+The heatmap below shows missing data patterns and outliers depicted using boxplots:
+
+Missing values in features like `Sunshine` and `Evaporation` were addressed using median imputation. Outliers were identified and corrected using boxplots.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth, height= 5cm]{missing_values_heatmap.png}
+    \includegraphics[width=0.45\linewidth, height= 5cm]{outlier_boxplot.png}
+    \includegraphics[width=0.9\linewidth, height= 6cm]{outlier_corrected.png}
+    \caption{Missing Values and Outlier Detection Corrections}
+\end{figure}
+
+\subsection{Feature Scaling and Engineering}
+To enhance model performance, the following techniques were applied:
+\begin{itemize}
+    \item Interaction terms such as Rainfall x Humidity were introduced.
+    \item Lag features for rainfall and temperature trends were added.
+    \item Month and season-based features were derived for temporal modeling.
+\end{itemize}
+
+
+\section{Exploratory Data Analysis (EDA)}
+\subsection{The Initial Analysis and Visualizations revealed relationships between key Climate Variables:}
+
+\textbf{Visualizations show}
+\begin{itemize}
+    \item Wind Gust Direction depending on time of the day
+    \item Rainfall Distribution by Month
+    \item Comparative trend of Sunshine vs Rainfall 
+    \item Dependency of Rainfall with Wind
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, height=10cm]{wind_gust_direction.png}
+    \caption{Wind Gust Direction}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, height=5cm]{rainfall_dist_month.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth, height= 7 cm]{sunshine_vs_rainfall.png}
+    \includegraphics[width=0.45\linewidth, height= 7 cm]{wind_vs_rainfall.png}
+    \caption{Sunshine vs Rainfall and Wind vs Rainfall}
+\end{figure}
+
+\subsection{Additional visualizations included:}
+\begin{itemize}
+\item \textbf{Rainfall vs Temperature:} Scatter plots highlighting trends between rainfall and temperature extremes.
+    \item \textbf{Rainfall by Location:} Geographic distribution of rainfall.
+    \item \textbf{Monthly Rainfall Averages (Year-wise):} Depicts seasonality in rainfall patterns.
+    \item \textbf{Comparison:} MinTemp and Maxtemp Based on location
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth,height=6cm]{rainfall_vs_temp.png}
+    \includegraphics[width=0.45\linewidth,height=6cm]{rainfall_location.png}
+    \caption{Rainfall vs Temp and Rainfall vs Location Distribution}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth,height=6cm]{avg_rainfall.png}
+    \includegraphics[width=0.45\linewidth,height=6cm]{mintemp_maxtemp.png}
+    \caption{Monthly Rainfall and MinTemp/MaxTemp by location Distribution}
+\end{figure}
+
+\section{Data Insights}
+
+\subsection{Key insights from the EDA include:}
+\begin{itemize}
+    \item \textbf{Temperature and Rainfall:} Sunshine showed a negative correlation with rainfall, indicating reduced rainfall during sunny periods.
+    \item \textbf{Correlations:} 
+    \begin{itemize}
+        \item `MinTemp` and `MaxTemp` were highly correlated with `Temp9am` and `Temp3pm`.
+        \item Pressure features (`Pressure9am` and `Pressure3pm`) exhibited strong positive correlations.
+    \end{itemize}
+    \item \textbf{Seasonality:} Monthly rainfall distribution revealed strong seasonality with clear peaks during specific months.
+\end{itemize}
+
+\subsection{Correlation Matrices}
+Outlier removal and scaling were applied to ensure model stability.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{placeholder_corr.png}
+    \caption{Correlation Heatmap of Numeric Features}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth, height=9cm]{highly_corr.png}
+    \caption{Correlation Heatmap of Highly Correlated Features}
+\end{figure}
+
+\subsection{Histograms and Pairplots were generated to understand data distribution:}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{histograms_numeric.png}
+    \caption{Histograms of Key Features}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{pairplot_features.png}
+    \caption{Pairplot of Key Features}
+\end{figure}
+
+% \section{Additional Visualizations}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{placeholder_silhouette.png}
+%     \caption{Silhouette Scores for Cluster Quality}
+% \end{figure}
+
+\section{Dimensionality Reduction}
+\subsection{Principal Component Analysis (PCA)}
+PCA was applied to reduce feature dimensionality:
+\begin{itemize}
+    \item 24 features were reduced to 8 components, retaining 95\% variance.
+    \item PCA effectively captured the relationship between correlated variables like RainToday and Rainfall.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.2\linewidth]{placeholder_pca.png}
+    \includegraphics[width=0.7\linewidth, height=4cm]{placeholder_pca.png}
+    \caption{Explained Variance by Principal Components}
+\end{figure}
+
+\subsection{Singular Value Decomposition (SVD)}
+SVD was performed as an alternative method
+\begin{itemize}
+    \item Reduced features to 8 components with a reconstruction error of 12,655.
+    \item SVD retained slightly less variance than PCA.
+\end{itemize}
+
+\subsection{PCA and SVD Results}
+PCA and SVD reduced the feature space effectively:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{pca_plot.png}
+    \includegraphics[width=0.45\linewidth]{svd_plot.png}
+    \caption{PCA and SVD on Weather Data}
+\end{figure}
+
+\subsection{PCA Visualization}
+ PCA visualization:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{3d_pca_weather.png}
+    \includegraphics[width=0.45\linewidth]{pca_weather.png}
+    \caption{PCA Visualizations}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, height=7cm]{km_pca.png}
+    \caption{PCA K-Means Clustering}
+\end{figure}
+
+\subsection{Matrix Approximation}
+Low-rank matrix approximations
+\begin{figure}[H]
+    \includegraphics[width=0.5\linewidth, height=7cm]{matrix_lowrank.png}
+    \includegraphics[width=0.4\linewidth, height=7cm]{Difference_matrix.png}
+    \caption{Matrix Approximation}
+\end{figure}
+
+
+\section{Clustering and Pattern Analysis}
+\subsection{KMeans Clustering}
+K-Means clustering was performed on both PCA- and SVD-reduced data to identify natural groupings within the dataset. The Elbow Method was used to determine the optimal number of clusters, which was found to be three. Clusters were visualized using scatter plots of the first two principal components, providing insights into distinct weather patterns.
+\begin{itemize}
+    \item Cluster 1: High rainfall, high humidity.
+    \item Cluster 2: Low rainfall, moderate humidity.
+    \item Cluster 3: Low humidity, moderate temperature.
+\end{itemize}
+
+\subsubsection{KMeans Clustering Result}
+The Elbow Method determined the optimal number of clusters as 3.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth,height=4.5cm]{placeholder_elbow.png}
+    \includegraphics[width=0.45\linewidth,height=4.5cm]{pca_variance_ratio.png}
+    \caption{Elbow Method for Optimal K and Explained Variance Ratio by Principal Components}
+    
+\end{figure}
+
+\subsection{KMeans clustering was applied on both PCA- and SVD-reduced datasets:}    
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth, height=8cm]{kmeans_pca.png}
+    \includegraphics[width=0.6\linewidth, height=8cm]{kmeans_svd.png}
+\caption{KMeans Clusters (PCA Reduced) and (SVD Reduced)}
+\end{figure}
+
+K-Means Clustering Results in Reduced Space, we can see that the Clustering revealed distinct weather patterns across three clusters.
+
+\section{Predictive Modeling}
+
+\subsection{Classification Model}
+Machine learning models were trained and evaluated. The classification Report and
+Confusion Matrix were visualized for the PCA-reduced dataset.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{class_report.png}
+    \includegraphics[width=0.45\linewidth]{cm_matrix.png}
+    \caption{Classification Report and ROC Curves}
+\end{figure}
+
+\subsection{Model Comparison}
+The following visualizations highlight performance across models:
+
+\subsection{Classification Results and ROC Curves}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth, height= 7cm]{roc_curve_pca.png}
+    \includegraphics[width=0.45\linewidth, height= 7cm]{roc_curve_svd.png}
+    \caption{ROC Curves for All Models(PCA and SVD)}
+\end{figure}
+Performance metrics for PCA- and SVD-reduced data:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth, height=24cm]{classification_report_pca.png}
+    \includegraphics[width=0.45\linewidth, height=24cm]{classification_report_svd.png}
+    \caption{Classification Report}
+\end{figure}
+
+
+
+\subsection{Decision Region for Model}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{decisionregion_pca.png}
+    \caption{Decision Region for PCA Models}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{decisionregion_svd.png}
+    \caption{Decision Region for SVD Models}
+\end{figure}
+
+\subsection{Model Comparison Graphs}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth, height = 10 cm]{pca_accuracy_f1.png}
+    \caption{Model Comparison PCA: Accuracy and F1-Score}
+
+    \includegraphics[width=1\linewidth, height = 10 cm]{svd_accuracy_f1.png}
+    \caption{Model Comparison SVD: Accuracy and F1-Score}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth, height= 6 cm]{values_auc_cohen.png}
+    \caption{AUC and Cohen's Kappa for Models}
+    
+    \includegraphics[width=1\linewidth, height= 10 cm]{plot_auc_cohen.png}
+    \caption{Model Comparison: AUC and Cohen's Kappa}
+\end{figure}
+
+\subsection{Model Selection and Evaluation}
+Machine learning models were implemented and evaluated on PCA and SVD-reduced data,  using accuracy and ROC-AUC:
+\begin{table}[H]
+\centering
+\caption{Model Performance Metrics}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Model}      & \textbf{Accuracy}   & \textbf{ROC-AUC} & \textbf{Remarks}         \\ \hline
+Logistic Regression & 82.9\%              & 0.83             & \textbf {(2nd)} Great performance, Interpretable, fast      \\ \hline
+Decision Tree       & 75.8\%              & 0.65             & Prone to overfitting     \\ \hline
+Random Forest       & {82.5\%}            & {0.82}           & Strong performance, robust \\ \hline
+Linear SVC          & {82.7\%}            & {0.66}           & Good performance, scalable \\ \hline
+SGD Classifier      & {82.5\%}            & {0.65}           & Fast, suitable for large datae \\ \hline
+\textbf{XGBoost}             & \textbf{83.2\%}     &\textbf {0.83}    & \textbf {(1st)} Best overall performance,High precision,Robust   \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Regression Analysis}
+\begin{itemize}
+    \item \textbf{Linear Regression:} Achieved reasonable performance with an MSE of 0.13 and R2 of 0.24.
+    \item \textbf{Gradient Boosting Regressor:} Outperformed Linear Regression with a lower MSE of 0.12 and an R2 of 0.30.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth, height = 5 cm]{values_rr_pca.png}
+    \includegraphics[width=0.45\linewidth, height = 5 cm]{values_rr_svd.png}
+    \caption{Linear Regression and Gradient Boosting Regressor for PCA and SVD data}
+
+\end{figure}
+
+\section{Key Observations}
+\begin{itemize}
+    \item PCA outperformed SVD in dimensionality reduction.
+    \item \textbf{XGBoost}, followed by \textbf{Logistic Regression} emerged as the top-performing models.
+    \item Clustering revealed distinct weather patterns across three clusters.
+    \item Seasonal and interaction-based features significantly improved model accuracy.
+\end{itemize}
+
+\section{Conclusion}
+This project demonstrated the efficiency of machine learning and dimensionality reduction techniques for climate data analysis. By reducing the dataset’s dimensionality using PCA and SVD, we managed to simplify the analysis while retaining critical information, and preserving its variance.
+Clustering techniques provided valuable insights into underlying weather patterns, while predictive models showed high accuracy in forecasting weather conditions. Regression analysis further enhanced our understanding of temperature trends. Overall, these methods proved to be powerful tools in the realm of climate data analysis and prediction, offering substantial benefits for future research and practical applications.
+
+\section*{References}
+\begin{itemize}
+    \item Kaggle Weather Dataset: \url{https://www.kaggle.com/datasets}
+    \item Scikit-Learn Documentation: \url{https://scikit-learn.org/}
+    \item Python Libraries: Numpy, Pandas, Matplotlib, Seaborn, Scikit-learn
+\end{itemize}
+
+\appendix
+
+
+\end{document}
